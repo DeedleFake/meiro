@@ -1,11 +1,9 @@
-package main
+package meiro
 
 import (
-	"fmt"
 	"math/rand"
 	"sort"
 	"strconv"
-	"time"
 )
 
 func Shuffle(data sort.Interface) {
@@ -22,7 +20,7 @@ type Maze struct {
 	w, h int
 }
 
-func RandomMaze(w, h int) *Maze {
+func Random(w, h int) *Maze {
 	m := &Maze{
 		c: make([]Cell, w*h),
 
@@ -106,6 +104,14 @@ func (m Maze) At(x, y int) *Cell {
 	return &m.c[y*m.w+x]
 }
 
+func (m Maze) Width() int {
+	return m.w
+}
+
+func (m Maze) Height() int {
+	return m.h
+}
+
 const (
 	up = iota
 	down
@@ -133,42 +139,4 @@ func (c Cell) Left() *Cell {
 
 func (c Cell) Right() *Cell {
 	return c.paths[right]
-}
-
-func init() {
-	rand.Seed(time.Now().UnixNano())
-}
-
-func main() {
-	m := RandomMaze(5, 5)
-
-	fmt.Printf("|")
-	for x := 0; x < m.w; x++ {
-		fmt.Printf("--|")
-	}
-	fmt.Println()
-
-	for y := 1; y < m.h; y++ {
-		fmt.Printf("|")
-		for x := 0; x < m.w; x++ {
-			fmt.Printf("  ")
-
-			if m.At(x, y).Right() == nil {
-				fmt.Printf("|")
-			} else {
-				fmt.Printf(" ")
-			}
-		}
-		fmt.Println()
-
-		fmt.Printf("|")
-		for x := 0; x < m.w; x++ {
-			if m.At(x, y).Down() == nil {
-				fmt.Printf("--|")
-			} else {
-				fmt.Printf("  |")
-			}
-		}
-		fmt.Println()
-	}
 }
