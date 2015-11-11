@@ -1,3 +1,4 @@
+// meiro is a package for the creation and manipulation of mazes.
 package meiro
 
 import (
@@ -6,11 +7,19 @@ import (
 	"strconv"
 )
 
+// A Maze is a rectangular maze.
 type Maze struct {
 	c    []Cell
 	w, h int
 }
 
+// Random returns a randomized maze of the given width and height. All
+// of the outer walls of the maze are enabled; in other words, there
+// are no entrances or exits.
+//
+// TODO: Make it possible to modify the maze more directly from other
+// packages so that clients can, among other things, add entrances and
+// exits.
 func Random(w, h int) *Maze {
 	m := &Maze{
 		c: make([]Cell, w*h),
@@ -58,6 +67,8 @@ func (m Maze) neighbor(i, p int) (n *Cell, b int) {
 	panic("Unexpected path value: " + strconv.FormatInt(int64(p), 10))
 }
 
+// randomize randomizes the maze using Kruskal's method. It is only
+// designed to work on a maze with all of the walls enabled.
 func (m *Maze) randomize() {
 	indexes := make(sort.IntSlice, len(m.c))
 	for i := range indexes {
@@ -91,14 +102,17 @@ func (m *Maze) randomize() {
 	}
 }
 
+// At returns the cell at (x, y).
 func (m Maze) At(x, y int) *Cell {
 	return &m.c[y*m.w+x]
 }
 
+// Width returns the width of the maze.
 func (m Maze) Width() int {
 	return m.w
 }
 
+// Height returns the height of the maze.
 func (m Maze) Height() int {
 	return m.h
 }
@@ -110,24 +124,28 @@ const (
 	right
 )
 
+// A Cell represents a single room of the maze.
 type Cell struct {
 	paths [4]*Cell
-
-	set int
+	set   int
 }
 
+// Up returns the cell just north of c.
 func (c Cell) Up() *Cell {
 	return c.paths[up]
 }
 
+// Down returns the cell just south of c.
 func (c Cell) Down() *Cell {
 	return c.paths[down]
 }
 
+// Left returns the cell just west of c.
 func (c Cell) Left() *Cell {
 	return c.paths[left]
 }
 
+// Right returns the cell just east of c.
 func (c Cell) Right() *Cell {
 	return c.paths[right]
 }
