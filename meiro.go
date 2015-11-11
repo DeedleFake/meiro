@@ -1,19 +1,10 @@
 package meiro
 
 import (
-	"math/rand"
+	"meiro/shuffle"
 	"sort"
 	"strconv"
 )
-
-func Shuffle(data sort.Interface) {
-	length := data.Len()
-
-	for i := 0; i < length; i++ {
-		i2 := rand.Intn(i + 1)
-		data.Swap(i, i2)
-	}
-}
 
 type Maze struct {
 	c    []Cell
@@ -72,14 +63,14 @@ func (m *Maze) randomize() {
 	for i := range indexes {
 		indexes[i] = i
 	}
-	Shuffle(indexes)
+	shuffle.Shuffle(indexes)
 
 	paths := sort.IntSlice{up, down, left, right}
 
 	for _, i := range indexes {
 		c := &m.c[i]
 
-		Shuffle(paths)
+		shuffle.Shuffle(paths)
 
 		for _, p := range paths {
 			n, b := m.neighbor(i, p)
