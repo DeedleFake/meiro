@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
+	"github.com/DeedleFake/meiro"
 	"math/rand"
-	"meiro"
 	"time"
 )
 

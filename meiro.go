@@ -2,7 +2,7 @@
 package meiro
 
 import (
-	"meiro/shuffle"
+	"github.com/DeedleFake/meiro/shuffle"
 	"sort"
 	"strconv"
 )
@@ -92,6 +92,7 @@ func (m *Maze) randomize() {
 			c.paths[p] = n
 			n.paths[b] = c
 
+			// TODO: Replace with graph traversal.
 			old := n.set
 			for i := range m.c {
 				if m.c[i].set == old {
