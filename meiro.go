@@ -119,13 +119,20 @@ type Cell struct {
 	set int
 }
 
-func (c Cell) Walls() (u, d, l, r bool) {
-	u = c.paths[up] == nil
-	d = c.paths[down] == nil
-	l = c.paths[left] == nil
-	r = c.paths[right] == nil
+func (c Cell) Up() *Cell {
+	return c.paths[up]
+}
 
-	return
+func (c Cell) Down() *Cell {
+	return c.paths[down]
+}
+
+func (c Cell) Left() *Cell {
+	return c.paths[left]
+}
+
+func (c Cell) Right() *Cell {
+	return c.paths[right]
 }
 
 func init() {
@@ -146,8 +153,7 @@ func main() {
 		for x := 0; x < m.w; x++ {
 			fmt.Printf("  ")
 
-			_, _, _, r := m.At(x, y).Walls()
-			if r {
+			if m.At(x, y).Right() == nil {
 				fmt.Printf("|")
 			} else {
 				fmt.Printf(" ")
@@ -157,8 +163,7 @@ func main() {
 
 		fmt.Printf("|")
 		for x := 0; x < m.w; x++ {
-			_, d, _, _ := m.At(x, y).Walls()
-			if d {
+			if m.At(x, y).Down() == nil {
 				fmt.Printf("--|")
 			} else {
 				fmt.Printf("  |")
